@@ -37,7 +37,6 @@ import { mount, shallow } from 'enzyme';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { clearLog, newConversation, setInspectorObjects } from '../../../data/action/chatActions';
 import { updateDocument } from '../../../data/action/editorActions';
@@ -311,12 +310,7 @@ describe('<Emulator/>', () => {
 
     expect(mockUnsubscribe).toHaveBeenCalled();
     expect(mockRemoteCallsMade).toHaveLength(0);
-    expect(mockInitConversation).toHaveBeenCalledWith(
-      instance.props,
-      options,
-      jasmine.any(BehaviorSubject),
-      jasmine.any(Subscription)
-    );
+    expect(mockInitConversation).toHaveBeenCalledWith(instance.props, options);
   });
 
   it('should start a new conversation with a new conversation id', async () => {
@@ -330,12 +324,7 @@ describe('<Emulator/>', () => {
     };
     await instance.startNewConversation(undefined, true, false);
 
-    expect(mockInitConversation).toHaveBeenCalledWith(
-      instance.props,
-      options,
-      jasmine.any(BehaviorSubject),
-      jasmine.any(Subscription)
-    );
+    expect(mockInitConversation).toHaveBeenCalledWith(instance.props, options);
   });
 
   it('should start a new conversation with a new user id', async () => {
@@ -353,12 +342,7 @@ describe('<Emulator/>', () => {
     expect(mockRemoteCallsMade).toHaveLength(1);
     expect(mockRemoteCallsMade[0].commandName).toBe(SharedConstants.Commands.Emulator.SetCurrentUser);
     expect(mockRemoteCallsMade[0].args).toEqual([options.userId]);
-    expect(mockInitConversation).toHaveBeenCalledWith(
-      instance.props,
-      options,
-      jasmine.any(BehaviorSubject),
-      jasmine.any(Subscription)
-    );
+    expect(mockInitConversation).toHaveBeenCalledWith(instance.props, options);
   });
 
   it('should start over a conversation with a new user id on click', async () => {
@@ -404,8 +388,6 @@ describe('<Emulator/>', () => {
           domain: 'someUrl/v3/directline',
           webSocket: false,
         },
-        selectedActivity$: {},
-        subscription: {},
       })
     );
   });
